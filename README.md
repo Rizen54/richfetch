@@ -16,6 +16,6 @@ A richly customisable fetch utility which provides a ton lot of information. Wri
 - ram used/total ram (ram usage %age)
 - disk used/total disk (disk usage %age)
 - local ip
-- public ip *do not forget to hide this when posting screenshots etc*
+- public ip (*do not forget to hide this when posting screenshots etc*)
 
-`richfetch` uses nerdfonts to display the symbols. What I use is JetBrains Mono Nerd Font so I know it works. You can try different nerd fonts to see if your works.
+`richfetch` uses ![**nerdfonts**](https://www.nerdfonts.com/) to display the symbols. What I use is JetBrains Mono Nerd Font so I know it works. You can try different nerd fonts to see if your works.
