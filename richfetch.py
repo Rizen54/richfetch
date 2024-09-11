@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import cpuinfo
 import ctypes
 from termcolor import colored
