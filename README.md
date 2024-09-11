@@ -1,4 +1,4 @@
-#richfetch
+# richfetch
 
 A richly customisable fetch utility which provides a ton lot of information. Written in Python.
 
