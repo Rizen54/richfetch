@@ -3,7 +3,7 @@
 A richly customisable fetch utility which provides a ton lot of information. Written in Python.
 
 ## Sample:
-<img src="images/sample.png" alt="Sample Image" width="300">
+<img src="images/sample.png" alt="Sample Image" width="343">
 
 ## Capabilities:
 `richfetch` displays the following info (in order):
