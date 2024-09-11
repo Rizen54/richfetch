@@ -3,7 +3,7 @@
 A richly customisable fetch utility which provides a ton lot of information. Written in Python.
 
 ## Sample:
-![Sample Image](images/sample.png)
+<img src="images/sample.png" alt="Sample Image" width="200">
 
 ## Capabilities:
 `richfetch` displays the following info (in order):
@@ -35,3 +35,6 @@ Lastly, add this line to the end of your `.bashrc` or `.zshrc`:
 ```bash
 alias richfetch='python3 /usr/local/bin/richfetch'
 ```
+
+If you're like me and you use arch linux and install python modules from arch repo. You can do this:
+`sudo pacman -Sy python-cpuinfo python-psutil python-requests python-termcolor`
