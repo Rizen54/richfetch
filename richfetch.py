@@ -30,6 +30,16 @@ def get_local_address():
         return None
 
 
+def color_cpu_temp(temp):
+    # Deciding color of cpu temp label depending on the temp
+    if temp < 60:
+        return "blue"
+    elif temp >= 60 and temp < 70:
+        return "yellow"
+    elif temp >= 70:
+        return "red"
+
+
 def get_system_info():
     # OS name and ver
     # I TRIED A LOT TO MAKE THIS BUT COULDN'T. Highly appreciated if someone contributes to make this
@@ -61,6 +71,7 @@ def get_system_info():
     # Fetching temp
     temp = psutil.sensors_temperatures()['coretemp'][0].current
     temp_str = f"{temp}󰔄"
+    temp_colo = color_cpu_temp(temp)
 
     # Getting ip addresses
     local_address = get_local_address()
@@ -84,7 +95,7 @@ def get_system_info():
         colored("", "blue"): colored(f"{username}@{hostname}", "green"),
         colored("", "blue"): cpu_name,
         colored("", "blue"): f"{cpu_per}%",
-        colored("", "red"): temp_str,
+        colored("", temp_colo): temp_str,
         colored("󰨇", "blue"): wm,
         colored("", "yellow"): uptime_str,
         colored("", "red"): ram_usage_str,
