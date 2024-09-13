@@ -9,6 +9,7 @@ A richly customisable fetch utility which provides a ton lot of information. Wri
 `richfetch` displays the following info (in order):
 
 - user@hostname
+- os name
 - cpu usage %age
 - cpu temp
 - WM name
