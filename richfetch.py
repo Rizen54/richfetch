@@ -40,6 +40,16 @@ def color_cpu_temp(temp):
         return "red"
 
 
+def color_usage_percent(percent):
+    # Deciding color of cpu temp label depending on the temp
+    if percent < 60:
+        return "blue"
+    elif percent >= 60 and percent < 80:
+        return "yellow"
+    elif percent >= 80:
+        return "red"
+
+
 def get_system_info():
     # OS name and ver
     # I TRIED A LOT TO MAKE THIS BUT COULDN'T. Highly appreciated if someone contributes to make this
@@ -67,11 +77,12 @@ def get_system_info():
     cpu_info = cpuinfo.get_cpu_info()
     cpu_name = cpu_info["brand_raw"]
     cpu_per = psutil.cpu_percent()
+    cpu_usage_color = color_usage_percent(cpu_per)
 
     # Fetching temp
     temp = psutil.sensors_temperatures()['coretemp'][0].current
     temp_str = f"{temp}󰔄"
-    temp_colo = color_cpu_temp(temp)
+    temp_color = color_cpu_temp(temp)
 
     # Getting ip addresses
     local_address = get_local_address()
@@ -83,23 +94,25 @@ def get_system_info():
     disk_total = disk_usage.total / (1024 ** 3)
     disk_used = disk_usage.used / (1024 ** 3)
     disk_usage_str = f"{disk_used:.2f} / {disk_total:.2f} GB ({disk_usage.percent:.2f}%)"
+    disk_usage_color = color_usage_percent(disk_usage.percent)
 
     # RAM space
     ram_usage = psutil.virtual_memory()
     ram_total = ram_usage.total / (1024 ** 3)
     ram_used = ram_usage.used / (1024 ** 3)
     ram_usage_str = f"{ram_used:.2f} / {ram_total:.2f} GB ({ram_usage.percent:.2f}%)"
+    ram_usage_color = color_usage_percent(ram_usage.percent)
 
 
     return {
-        colored("", "blue"): colored(f"{username}@{hostname}", "green"),
+        colored("", "green"): colored(f"{username}@{hostname}", "green"),
         colored("", "blue"): cpu_name,
-        colored("", "blue"): f"{cpu_per}%",
-        colored("", temp_colo): temp_str,
-        colored("󰨇", "blue"): wm,
-        colored("", "yellow"): uptime_str,
-        colored("", "red"): ram_usage_str,
-        colored("", "magenta"): disk_usage_str,
+        colored("", cpu_usage_color): f"{cpu_per}%",
+        colored("", temp_color): temp_str,
+        colored("󰨇", "red"): wm,
+        colored("", "magenta"): uptime_str,
+        colored("", ram_usage_color): ram_usage_str,
+        colored("", disk_usage_color): disk_usage_str,
         colored("󰩩", "yellow"): local_address,
         colored("󰩩", "green"): public_address
     }
