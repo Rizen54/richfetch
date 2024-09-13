@@ -8,6 +8,7 @@ import subprocess
 import socket
 import requests
 from datetime import datetime
+import platform
 
 
 def get_public_address():
@@ -33,7 +34,7 @@ def get_local_address():
 def color_cpu_temp(temp):
     # Deciding color of cpu temp label depending on the temp
     if temp < 60:
-        return "blue"
+        return "green"
     elif temp >= 60 and temp < 70:
         return "yellow"
     elif temp >= 70:
@@ -43,7 +44,7 @@ def color_cpu_temp(temp):
 def color_usage_percent(percent):
     # Deciding color of cpu temp label depending on the temp
     if percent < 60:
-        return "blue"
+        return "green"
     elif percent >= 60 and percent < 80:
         return "yellow"
     elif percent >= 80:
@@ -52,7 +53,7 @@ def color_usage_percent(percent):
 
 def get_system_info():
     # OS name and ver
-    # I TRIED A LOT TO MAKE THIS BUT COULDN'T. Highly appreciated if someone contributes to make this
+    os_name = platform.freedesktop_os_release()["PRETTY_NAME"]
 
     # Username and hostname
     username = os.getlogin()
@@ -106,6 +107,7 @@ def get_system_info():
 
     return {
         colored("", "green"): colored(f"{username}@{hostname}", "green"),
+        colored("", "green"): os_name,
         colored("", "blue"): cpu_name,
         colored("", cpu_usage_color): f"{cpu_per}%",
         colored("", temp_color): temp_str,
@@ -120,6 +122,7 @@ def get_system_info():
 if __name__ == "__main__":
 
     system_info = get_system_info()
+
     print("\n", end="")
     for key, value in system_info.items():
         print(f"  {key}  {value}")
