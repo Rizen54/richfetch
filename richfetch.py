@@ -170,7 +170,7 @@ def get_system_info():
         colored("", ram_usage_color): ram_usage_str,
         colored("", disk_usage_color): disk_usage_str,
         colored("󰩩", "yellow"): local_address,
-        colored("󰩩", "green"): public_address
+        # colored("󰩩", "green"): public_address
     }
 
 if __name__ == "__main__":
