@@ -51,9 +51,63 @@ def color_usage_percent(percent):
         return "red"
 
 
+def get_os_logo(os_name):
+    logo_dict = {
+        "Alpine Linux": colored('', 'blue'),
+        "macOS": colored('', 'white'),
+        "Arch Linux": colored('󰣇', 'blue'),
+        "Artix Linux": colored('', 'blue'),
+        "CentOS Stream 9": colored('', 'yellow'),
+        "Debian GNU/Linux 11 Bullseye": colored('', 'red'),
+        "Deepin": colored('', 'blue'),
+        "Elementary OS 7: Loki": colored('', 'blue'),
+        "EndeavourOS": colored('', 'magenta'),
+        "Fedora Linux": colored('', 'blue'),
+        "FreeBSD": colored('', 'red'),
+        "Parabola GNU/Linux-libre": colored('', 'blue'),
+        "Garuda Linux": colored('', 'yellow'),
+        "Gentoo Linux": colored('󰣨', 'white'),
+        "Hyperbola GNU/Linux-libre": colored('', 'blue'),
+        "Kali Linux": colored('', 'blue'),
+        "KDE Neon": colored('', 'blue'),
+        "Kubuntu": colored('', 'blue'),
+        "Linux Mint 21 Cinnamon": colored('󰣭', 'green'),
+        "Lubuntu": colored('', 'blue'),
+        "Mageia": colored('', 'blue'),
+        "Manjaro Linux": colored('', 'green'),
+        "MX Linux": colored('', 'white'),
+        "NixOS": colored('', 'blue'),
+        "openSUSE Leap 15.4": colored('', 'green'),
+        "openSUSE Tumbleweed": colored('', 'green'),
+        "Parabola GNU/Linux-libre": colored('', 'blue'),
+        "Parrot Security OS": colored('', 'green'),
+        "Pop!_OS 22.04": colored('', 'blue'),
+        "PostmarketOS": colored('', 'green'),
+        "Puppy Linux": colored('', 'white'),
+        "Qubes OS": colored('', 'blue'),
+        "Raspberry Pi OS": colored('', 'red'),
+        "Red Hat Enterprise Linux": colored('Red Hat Enterprise Linux', 'red'),
+        "Slackware Linux": colored('', 'blue'),
+        "Solus": colored('', 'blue'),
+        "Tails": colored('', 'magenta'),
+        "Ubuntu 22.04 LTS": colored('', 'yellow'),
+        "Ubuntu Budgie": colored('', 'magenta'),
+        "Vanilla OS":  colored('', 'yellow'),
+        "Void Linux": colored('', 'green'),
+        "Windows": colored('', 'blue'),
+        "Xubuntu": colored('', 'blue'),
+        "Zorin OS": colored('', 'blue'),
+    }
+    
+    if os_name in logo_dict:
+        return logo_dict[os_name]
+    else:
+        return colored('', 'yellow')
+
 def get_system_info():
     # OS name and ver
     os_name = platform.freedesktop_os_release()["PRETTY_NAME"]
+    os_logo = get_os_logo(os_name)
 
     # Username and hostname
     username = os.getlogin()
@@ -107,7 +161,7 @@ def get_system_info():
 
     return {
         colored("", "green"): colored(f"{username}@{hostname}", "green"),
-        colored("", "green"): os_name,
+        os_logo: os_name,
         colored("", "blue"): cpu_name,
         colored("", cpu_usage_color): f"{cpu_per}%",
         colored("", temp_color): temp_str,
