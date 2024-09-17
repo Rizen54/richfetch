@@ -39,3 +39,11 @@ alias richfetch='python3 /usr/local/bin/richfetch'
 
 If you're like me and you use arch linux and install python modules from arch repo. You can do this:
 `sudo pacman -Sy python-cpuinfo python-psutil python-requests python-termcolor`
+
+## Special Features:
+Short note: I'm very happy and proud of these.
+
+- Dynamic colors for OS Symbol, RAM/DISK/CPU Usage and CPU Temp
+- Local and public IPs (Public IP is disabled by default, you can enable it by simply un-commenting a line)
+- Nerd Fonts for logos instead of ASCII art (minimalism is they key.)
+- The ease of customizing it.
