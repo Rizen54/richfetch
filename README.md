@@ -1,9 +1,8 @@
 <div align="center">
-# richfetch
+<h1>richfetch</h1>
 
 > A richly customisable fetch utility which provides a ton lot of information. Written in Python.
 
-## Sample:
 <img src="images/sample.png" alt="Sample Image" width="300">
 </div>
 
