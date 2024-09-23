@@ -27,7 +27,7 @@ def get_local_address():
         ip = s.getsockname()[0]
         s.close()
         return ip
-    except Exception:  
+    except Exception:
         return None
 
 
@@ -98,11 +98,31 @@ def get_os_logo(os_name):
         "Xubuntu": colored('', 'blue'),
         "Zorin OS": colored('', 'blue'),
     }
-    
+
     if os_name in logo_dict:
         return logo_dict[os_name]
     else:
         return colored('', 'yellow')
+
+
+def color_line():
+    colors = ["red", "yellow", "green", "blue", "cyan", "magenta"]
+    colored_line = ""
+    for color in colors:
+        colored_line += colored(" ", color)
+    return colored_line
+
+
+def dynamic_color_line():
+    colors = ["red", "yellow", "green", "blue", "cyan", "magenta"]
+    symbols = ["󱚝", "󱚟", "󱚣", "󰚩", "󱜙", "󱚥"]
+
+    colored_line = ""
+    for i in range(len(colors)):
+        colored_symbol = colored(symbols[i], colors[i])
+        colored_line += colored_symbol + " "
+    return colored_line 
+
 
 def get_system_info():
     # OS name and ver
@@ -158,6 +178,9 @@ def get_system_info():
     ram_usage_str = f"{ram_used:.2f} / {ram_total:.2f} GB ({ram_usage.percent:.2f}%)"
     ram_usage_color = color_usage_percent(ram_usage.percent)
 
+    # Colors
+    colored_line = dynamic_color_line()
+
 
     return {
         colored("", "green"): colored(f"{username}@{hostname}", "green"),
@@ -170,7 +193,8 @@ def get_system_info():
         colored("", ram_usage_color): ram_usage_str,
         colored("", disk_usage_color): disk_usage_str,
         colored("󰩩", "yellow"): local_address,
-        # colored("󰩩", "green"): public_address
+        # colored("󰩩", "green"): public_address,
+        " ": colored_line,
     }
 
 if __name__ == "__main__":
@@ -180,4 +204,3 @@ if __name__ == "__main__":
     print("\n", end="")
     for key, value in system_info.items():
         print(f"  {key}  {value}")
-
