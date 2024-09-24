@@ -49,3 +49,7 @@ Short note: I'm very happy and proud of these.
 - Local and public IPs (Public IP is disabled by default, you can enable it by simply un-commenting a line)
 - Nerd Fonts for logos instead of ASCII art (minimalism is they key.)
 - The ease of customizing it.
+
+## Stars
+Please support me by giving a star to this repo.
+> Small click for a man, giant star for another.
