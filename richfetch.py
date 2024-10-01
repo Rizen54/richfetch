@@ -132,7 +132,6 @@ def get_system_info():
     # Username and hostname
     username = os.getlogin()
     hostname = os.uname().nodename
-    linelen = len(username) + len(hostname) + 3
 
     # Uptime
     uptime_seconds = psutil.boot_time()
