@@ -42,7 +42,7 @@ def get_cpu_temperature():
             if temperatures:
                 return temperatures[0].current
                 break  # Exit the inner loop if a matching reading is found
-        except (KeyError, IndexError):
+        except KeyError:
             pass
 
     return None
