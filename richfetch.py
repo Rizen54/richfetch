@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 import ctypes
+from datetime import datetime
 import os
-import platform
-import psutil
-import requests
+from platform import freedesktop_os_release
 import socket
 import subprocess
-import termcolor
+
 from cpuinfo import get_cpu_info
-from datetime import datetime
+import psutil
+import requests
+from termcolor import colored
 
 
 def get_public_address():
