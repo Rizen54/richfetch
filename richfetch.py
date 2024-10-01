@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import cpuinfo
+from cpuinfo import get_cpu_info
 import ctypes
 from termcolor import colored
 import os
@@ -8,7 +8,7 @@ import subprocess
 import socket
 import requests
 from datetime import datetime
-import platform
+from platform import freedesktop_os_release
 
 
 def get_public_address():
@@ -126,7 +126,7 @@ def dynamic_color_line():
 
 def get_system_info():
     # OS name and ver
-    os_name = platform.freedesktop_os_release()["PRETTY_NAME"]
+    os_name = freedesktop_os_release()["PRETTY_NAME"]
     os_logo = get_os_logo(os_name)
 
     # Username and hostname
@@ -148,7 +148,7 @@ def get_system_info():
     wm = os.environ.get("DESKTOP_SESSION") or os.environ.get("XDG_SESSION_TYPE")
 
     # CPU name
-    cpu_info = cpuinfo.get_cpu_info()
+    cpu_info = get_cpu_info()
     cpu_name = cpu_info["brand_raw"]
     cpu_per = psutil.cpu_percent()
     cpu_usage_color = color_usage_percent(cpu_per)
@@ -195,6 +195,7 @@ def get_system_info():
         # colored("󰩩", "green"): public_address,
         " ": colored_line,
     }
+
 
 if __name__ == "__main__":
 
