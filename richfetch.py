@@ -16,7 +16,13 @@ def get_public_address():
         response = requests.get("https://api.ipify.org?format=json")
         response.raise_for_status()
         return response.json()["ip"]
-    except Exception:
+    except requests.exceptions.RequestException as e:
+        # Handle specific request exceptions (e.g., network errors)
+        print(f"Error retrieving public IP address: {e}")
+        return None
+    except Exception as e:
+        # Catch any other unexpected exceptions
+        print(f"Unexpected error: {e}")
         return None
 
 
@@ -27,7 +33,13 @@ def get_local_address():
         ip = s.getsockname()[0]
         s.close()
         return ip
-    except Exception:
+    except socket.error as e:
+        # Handle socket-specific errors
+        print(f"Error retrieving local IP address: {e}")
+        return None
+    except Exception as e:
+        # Catch any other unexpected exceptions
+        print(f"Unexpected error: {e}")
         return None
 
 
