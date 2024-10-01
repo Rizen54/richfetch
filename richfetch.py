@@ -159,8 +159,8 @@ def get_system_info():
     temp_color = color_cpu_temp(temp)
 
     # Getting ip addresses
-    local_address = get_local_address()
-    public_address = get_public_address()
+    # local_address = get_local_address()
+    # public_address = get_public_address()
 
 
     # Disk space
@@ -191,7 +191,7 @@ def get_system_info():
         colored("", "magenta"): uptime_str,
         colored("", ram_usage_color): ram_usage_str,
         colored("", disk_usage_color): disk_usage_str,
-        colored("󰩩", "yellow"): local_address,
+        # colored("󰩩", "yellow"): local_address,
         # colored("󰩩", "green"): public_address,
         " ": colored_line,
     }
