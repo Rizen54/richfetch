@@ -31,6 +31,23 @@ def get_local_address():
         return None
 
 
+def get_cpu_temperature():
+    # Gets CPU temp but only works in Linux or FreeBSD based OS
+    
+    sensors = ["coretemp", "k10temp", "cpu-thermal", "cpu-thermal", "lm_sensors" "asus-nb", "lm75", "acpitz"]
+
+    for sensor in sensors:
+        try:
+            temperatures = psutil.sensors_temperatures()[sensor]
+            if temperatures:
+                return temperatures[0].current
+                break  # Exit the inner loop if a matching reading is found
+        except (KeyError, IndexError):
+            pass
+
+    return None
+
+
 def color_cpu_temp(temp):
     # Deciding color of cpu temp label depending on the temp
     if temp < 60:
@@ -141,7 +158,6 @@ def get_system_info():
     # Calculate uptime in hours and minutes
     uptime_hours = int(boot_time.total_seconds() // 3600)
     uptime_minutes = int((boot_time.total_seconds() % 3600) // 60)
-
     uptime_str = f"{uptime_hours} hrs, {uptime_minutes} mins"
 
     # Window Manager (WM)
@@ -154,14 +170,18 @@ def get_system_info():
     cpu_usage_color = color_usage_percent(cpu_per)
 
     # Fetching temp
-    temp = psutil.sensors_temperatures()['coretemp'][0].current
-    temp_str = f"{temp}󰔄"
-    temp_color = color_cpu_temp(temp)
+    temp = get_cpu_temperature()
 
+    if temp is not None:
+        temp_str = f"{temp}󰔄"
+        temp_color = color_cpu_temp(temp)
+    else:
+        temp_str = "CPU Temp not found. You're either on Windows or CPU sensors unrecognized."
+        temp_color = "red"
+    
     # Getting ip addresses
     # local_address = get_local_address()
     # public_address = get_public_address()
-
 
     # Disk space
     disk_usage = psutil.disk_usage("/")
