@@ -46,7 +46,7 @@ def get_local_address():
 
 def get_cpu_temperature():
     # Gets CPU temp but only works in Linux or FreeBSD based OS
-    
+
     sensors = ["coretemp", "k10temp", "cpu-thermal", "cpu-thermal", "lm_sensors" "asus-nb", "lm75", "acpitz"]
 
     for sensor in sensors:
@@ -191,7 +191,7 @@ def get_system_info():
     else:
         temp_str = "CPU Temp not found. You're either on Windows or CPU sensors unrecognized."
         temp_color = "red"
-    
+
     # Getting ip addresses
     # local_address = get_local_address()
     # public_address = get_public_address()
@@ -234,6 +234,7 @@ if __name__ == "__main__":
 
     system_info = get_system_info()
 
-    print("\n", end="")
+    print()
     for key, value in system_info.items():
         print(f"  {key}  {value}")
+    print()
