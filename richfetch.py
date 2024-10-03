@@ -2,7 +2,7 @@
 import ctypes
 from datetime import datetime
 import os
-from platform import freedesktop_os_release
+import platform
 import socket
 import subprocess
 
@@ -84,7 +84,6 @@ def color_usage_percent(percent):
 def get_os_logo(os_name):
     logo_dict = {
         "Alpine Linux": colored('', 'blue'),
-        "macOS": colored('', 'white'),
         "Arch Linux": colored('󰣇', 'blue'),
         "Artix Linux": colored('', 'blue'),
         "CentOS Stream 9": colored('', 'yellow'),
@@ -103,6 +102,7 @@ def get_os_logo(os_name):
         "Kubuntu": colored('', 'blue'),
         "Linux Mint 21 Cinnamon": colored('󰣭', 'green'),
         "Lubuntu": colored('', 'blue'),
+        "macOS": colored('', 'white'),
         "Mageia": colored('', 'blue'),
         "Manjaro Linux": colored('', 'green'),
         "MX Linux": colored('', 'white'),
@@ -151,13 +151,25 @@ def dynamic_color_line():
     for i in range(len(colors)):
         colored_symbol = colored(symbols[i], colors[i])
         colored_line += colored_symbol + " "
-    return colored_line 
+    return colored_line
 
 
 def get_system_info():
     # OS name and ver
-    os_name = freedesktop_os_release()["PRETTY_NAME"]
-    os_logo = get_os_logo(os_name)
+    os_type = platform.system()
+
+    if os_type == "Darwin":
+        macos = platform.mac_ver()[0]
+        os_name = f"macos {macos_version}"
+        os_logo = get_os_logo("macOS")
+    elif os_type == "Windows":
+        version = platform.win32_ver()
+        os_name = f"Windows {version}"
+        os_logo = get_os_logo("Windows")
+    else:
+        os_name = platform.freedesktop_os_release()["PRETTY_NAME"]
+        os_logo = get_os_logo(os_name)
+
 
     # Username and hostname
     username = os.getlogin()
