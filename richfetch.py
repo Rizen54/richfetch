@@ -159,8 +159,8 @@ def get_system_info():
     os_type = platform.system()
 
     if os_type == "Darwin":
-        macos = platform.mac_ver()[0]
-        os_name = f"macos {macos_version}"
+        version = platform.mac_ver()[0]
+        os_name = f"macos {version}"
         os_logo = get_os_logo("macOS")
     elif os_type == "Windows":
         version = platform.win32_ver()
