@@ -55,7 +55,7 @@ def get_cpu_temperature():
             if temperatures:
                 return temperatures[0].current
                 break  # Exit the inner loop if a matching reading is found
-        except KeyError:
+        except (KeyError, AttributeError):
             pass
 
     return None
@@ -201,8 +201,18 @@ def get_system_info():
         temp_str = f"{temp}󰔄"
         temp_color = color_cpu_temp(temp)
     else:
-        temp_str = "CPU Temp not found. You're either on Windows or CPU sensors unrecognized."
+        temp_str = "None"
         temp_color = "red"
+
+    # Battery
+
+    battery = f"{round(psutil.sensors_battery().percent)}%"
+    plugged = psutil.sensors_battery().power_plugged
+
+    if plugged == True:
+        battery_logo = "󰂄"
+    else:
+        battery_logo = "󱊣"
 
     # Getting ip addresses
     # local_address = get_local_address()
@@ -231,6 +241,7 @@ def get_system_info():
         os_logo: os_name,
         colored("", "blue"): cpu_name,
         colored("", cpu_usage_color): f"{cpu_per}%",
+        colored(battery_logo, "green"): battery,
         colored("", temp_color): temp_str,
         colored("󰨇", "red"): wm,
         colored("", "magenta"): uptime_str,
