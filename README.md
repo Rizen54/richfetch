@@ -39,7 +39,7 @@ alias richfetch='python3 /usr/local/bin/richfetch'
 ```
 
 If you're like me and you use arch linux and install python modules from arch repo. You can do this:
-`sudo pacman -Sy python-cpuinfo python-psutil python-requests python-termcolor`
+`sudo pacman -Sy python-py-cpuinfo python-psutil python-requests python-termcolor`
 
 ## Special Features:
 Short note: I'm very happy and proud of these.
