@@ -14,7 +14,7 @@ import requests
 from termcolor import colored
 
 
-def get_public_address():
+def get_public_ip():
     try:
         response = requests.get("https://api.ipify.org?format=json")
         response.raise_for_status()
@@ -29,7 +29,7 @@ def get_public_address():
         return None
 
 
-def get_local_address():
+def get_private_ip():
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect(("8.8.8.8", 80))
@@ -231,10 +231,10 @@ def get_system_info():
     public_ip = None
 
     if args.show_private_ip:
-        private_ip = get_private_address()
+        private_ip = get_private_ip()
 
     if args.show_public_ip:
-        public_ip = get_public_address()
+        public_ip = get_public_ip()
 
     # Disk space
     disk_usage = psutil.disk_usage("/")
@@ -277,7 +277,7 @@ def get_system_info():
     if private_ip is not None:
         display.update({colored("󰩩", "green"): private_ip})
     if public_ip is not None:
-        display.update({colored("󰩩", "green"): public_ip})
+        display.update({colored("󰑩", "green"): public_ip})
 
     display.update({" ": colored_line,})
 
