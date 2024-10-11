@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+
+import argparse
 import ctypes
 from datetime import datetime
 import os
@@ -155,6 +157,12 @@ def dynamic_color_line():
 
 
 def get_system_info():
+
+    parser = argparse.ArgumentParser(description="RichFetch - A customizable system information tool")
+    parser.add_argument("--show-public-ip", action="store_true", help="Show public IP address")
+    parser.add_argument("--show-private-ip", action="store_true", help="Show private IP address")
+    args = parser.parse_args()
+
     # OS name and ver
     os_type = platform.system()
 
@@ -201,13 +209,16 @@ def get_system_info():
         temp_str = f"{temp}󰔄"
         temp_color = color_cpu_temp(temp)
     else:
-        temp_str = "None"
+        temp_str = None
         temp_color = "red"
 
     # Battery
 
-    battery = f"{round(psutil.sensors_battery().percent)}%"
-    plugged = psutil.sensors_battery().power_plugged
+    try:
+        battery = f"{round(psutil.sensors_battery().percent)}%"
+        plugged = psutil.sensors_battery().power_plugged
+    except AttributeError:
+        battery = None
 
     if plugged == True:
         battery_logo = "󰂄"
@@ -215,8 +226,15 @@ def get_system_info():
         battery_logo = "󱊣"
 
     # Getting ip addresses
-    # local_address = get_local_address()
-    # public_address = get_public_address()
+
+    private_ip = None
+    public_ip = None
+
+    if args.show_private_ip:
+        private_ip = get_private_address()
+
+    if args.show_public_ip:
+        public_ip = get_public_address()
 
     # Disk space
     disk_usage = psutil.disk_usage("/")
@@ -236,28 +254,44 @@ def get_system_info():
     colored_line = dynamic_color_line()
 
 
-    return {
+    display = {
         colored("", "green"): colored(f"{username}@{hostname}", "green"),
         os_logo: os_name,
         colored("", "blue"): cpu_name,
         colored("", cpu_usage_color): f"{cpu_per}%",
-        colored("", temp_color): temp_str,
-        colored(battery_logo, "green"): battery,
+    }
+
+    if temp_str is not None:
+        display.update({colored("", temp_color): temp_str})
+
+    if battery is not None:
+        display.update({colored(battery_logo, "green"): battery})
+
+    display.update({
         colored("󰨇", "red"): wm,
         colored("", "magenta"): uptime_str,
         colored("", ram_usage_color): ram_usage_str,
-        colored("", disk_usage_color): disk_usage_str,
-        # colored("󰩩", "yellow"): local_address,
-        # colored("󰩩", "green"): public_address,
-        " ": colored_line,
-    }
+        colored("", disk_usage_color): disk_usage_str
+    })
+
+    if private_ip is not None:
+        display.update({colored("󰩩", "green"): private_ip})
+    if public_ip is not None:
+        display.update({colored("󰩩", "green"): public_ip})
+
+    display.update({" ": colored_line,})
+
+    return display
 
 
-if __name__ == "__main__":
-
+def main():
     system_info = get_system_info()
 
     print()
     for key, value in system_info.items():
         print(f"  {key}  {value}")
     print()
+
+
+if __name__ == "__main__":
+    main()
