@@ -216,9 +216,12 @@ def get_system_info():
 
     try:
         battery = f"{round(psutil.sensors_battery().percent)}%"
-        plugged = psutil.sensors_battery().power_plugged
     except AttributeError:
         battery = None
+    try:
+        plugged = psutil.sensors_battery().power_plugged
+    except UnboundLocalError:
+        plugged = None
 
     if plugged == True:
         battery_logo = "󰂄"
