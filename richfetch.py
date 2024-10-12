@@ -220,7 +220,7 @@ def get_system_info():
         battery = None
     try:
         plugged = psutil.sensors_battery().power_plugged
-    except UnboundLocalError:
+    except (UnboundLocalError, AttributeError):
         plugged = None
 
     if plugged == True:
