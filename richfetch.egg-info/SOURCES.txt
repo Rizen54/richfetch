@@ -1,0 +1,8 @@
+LICENSE
+README.md
+setup.py
+richfetch.egg-info/PKG-INFO
+richfetch.egg-info/SOURCES.txt
+richfetch.egg-info/dependency_links.txt
+richfetch.egg-info/requires.txt
+richfetch.egg-info/top_level.txt
