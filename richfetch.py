@@ -1,15 +1,14 @@
 #!/usr/bin/env python
 
-import argparse
-from datetime import datetime
 import os
-import platform
-import socket
-
-from cpuinfo import get_cpu_info
 import psutil
+import socket
+import argparse
+import platform
 import requests
+from datetime import datetime
 from termcolor import colored
+from cpuinfo import get_cpu_info
 
 
 def get_public_ip():
