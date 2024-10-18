@@ -111,7 +111,6 @@ def get_os_logo(os_name):
         "NixOS": colored('', 'blue'),
         "openSUSE Leap 15.4": colored('', 'green'),
         "openSUSE Tumbleweed": colored('', 'green'),
-        "Parabola GNU/Linux-libre": colored('', 'blue'),
         "Parrot Security OS": colored('', 'green'),
         "Pop!_OS 22.04": colored('', 'blue'),
         "PostmarketOS": colored('', 'green'),
