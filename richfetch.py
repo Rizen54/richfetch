@@ -155,8 +155,23 @@ def color_usage_percent(percent: float) -> str:
         return "red"
 
 
-def get_os_logo(os_name):
-    logo_dict = {
+def get_os_logo(os_name: str) -> str:
+    """
+    Returns the corresponding logo icon for a given operating system name.
+
+    This function uses a dictionary to map operating system names to their respective
+    logo icons, with the icon colored using the `colored` function.
+
+    If the specified operating system name is not found in the dictionary, a default icon
+    is returned.
+
+    Args:
+        os_name (str): The name of the operating system.
+
+    Returns:
+        str: The logo icon for the specified operating system, with color formatting applied.
+    """
+    logo_dict: dict[str, str] = {
         "Alpine Linux": colored("", "blue"),
         "Arch Linux": colored("󰣇", "blue"),
         "Artix Linux": colored("", "blue"),
