@@ -3,12 +3,14 @@
 import os
 import psutil
 import socket
+import typing
 import argparse
 import platform
 import requests
-from datetime import datetime
+import psutil._common
 from termcolor import colored
 from cpuinfo import get_cpu_info
+from datetime import datetime, timedelta
 
 
 def get_public_ip() -> str | None:
@@ -257,9 +259,18 @@ def dynamic_color_line() -> str:
     return colored_line
 
 
-def get_system_info():
+def get_system_info() -> dict[str, typing.Any]:
+    """
+    Retrieves system information including OS details, username, uptime,
+    CPU information, memory usage, disk space, and IP addresses.
 
-    parser = argparse.ArgumentParser(
+    This function uses various system libraries to gather information about
+    the system and returns it in a structured dictionary format.
+
+    Returns:
+        dict[str, typing.Any]: A dictionary containing system information.
+    """
+    parser: argparse.ArgumentParser = argparse.ArgumentParser(
         description="RichFetch - A customizable system information tool"
     )
     parser.add_argument(
@@ -268,14 +279,16 @@ def get_system_info():
     parser.add_argument(
         "--show-private-ip", action="store_true", help="Show private IP address"
     )
-    args = parser.parse_args()
+    args: argparse.Namespace = parser.parse_args()
 
-    # OS name and ver
-    os_type = platform.system()
+    # OS name and version
+    os_type: str = platform.system()
+    os_name: str
+    os_logo: str
 
     if os_type == "Darwin":
         version = platform.mac_ver()[0]
-        os_name = f"macos {version}"
+        os_name = f"macOS {version}"
         os_logo = get_os_logo("macOS")
     elif os_type == "Windows":
         version = platform.win32_ver()
@@ -286,113 +299,78 @@ def get_system_info():
         os_logo = get_os_logo(os_name)
 
     # Username and hostname
-    username = os.getlogin()
-    hostname = os.uname().nodename
+    username: str = os.getlogin()
+    hostname: str = os.uname().nodename
 
-    # Uptime
-    uptime_seconds = psutil.boot_time()
-    current_time = datetime.now()
-    boot_time = current_time - datetime.fromtimestamp(uptime_seconds)
-
-    # Calculate uptime in hours and minutes
-    uptime_hours = int(boot_time.total_seconds() // 3600)
-    uptime_minutes = int((boot_time.total_seconds() % 3600) // 60)
-    uptime_str = f"{uptime_hours} hrs, {uptime_minutes} mins"
+    # Uptime calculation
+    uptime_seconds: float = psutil.boot_time()
+    current_time: datetime = datetime.now()
+    boot_time: timedelta = current_time - datetime.fromtimestamp(uptime_seconds)
+    uptime_str: str = (
+        f"{int(boot_time.total_seconds() // 3600)} hrs, {int((boot_time.total_seconds() % 3600) // 60)} mins"
+    )
 
     # Window Manager (WM)
-    wm = os.environ.get("DESKTOP_SESSION") or os.environ.get("XDG_SESSION_TYPE")
+    wm: str | None = os.environ.get("DESKTOP_SESSION") or os.environ.get(
+        "XDG_SESSION_TYPE"
+    )
 
-    # CPU name
-    cpu_info = get_cpu_info()
-    cpu_name = cpu_info["brand_raw"]
-    cpu_per = psutil.cpu_percent()
-    cpu_usage_color = color_usage_percent(cpu_per)
+    # CPU information
+    cpu_info: dict[str, str] = get_cpu_info()
+    cpu_name: str = cpu_info["brand_raw"]
+    cpu_per: float = psutil.cpu_percent()
+    cpu_usage_color: str = color_usage_percent(cpu_per)
 
-    # Fetching temp
-    temp = get_cpu_temperature()
+    # Fetching CPU temperature
+    temp: float = get_cpu_temperature()
+    temp_str: str | None = f"{temp}󰔄" if temp is not None else None
+    temp_color: str | None = color_cpu_temp(temp) if temp is not None else "red"
 
-    if temp is not None:
-        temp_str = f"{temp}󰔄"
-        temp_color = color_cpu_temp(temp)
-    else:
-        temp_str = None
-        temp_color = "red"
+    # Battery status
+    battery: psutil._common.sbattery = psutil.sensors_battery()
+    battery_percent: str | None = f"{round(battery.percent)}%" if battery else None
+    plugged: bool | None = battery.power_plugged if battery else None
+    battery_logo: str = "󰂄" if plugged else "󱊣"
 
-    # Battery
-
-    try:
-        battery = f"{round(psutil.sensors_battery().percent)}%"
-    except AttributeError:
-        battery = None
-    try:
-        plugged = psutil.sensors_battery().power_plugged
-    except (UnboundLocalError, AttributeError):
-        plugged = None
-
-    battery_logo = "󰂄" if plugged else "󱊣"
-
-    # Getting ip addresses
-
-    private_ip = None
-    public_ip = None
-
-    if args.show_private_ip:
-        private_ip = get_private_ip()
-
-    if args.show_public_ip:
-        public_ip = get_public_ip()
+    # Getting IP addresses
+    private_ip: str | None = get_private_ip() if args.show_private_ip else None
+    public_ip: str | None = get_public_ip() if args.show_public_ip else None
 
     # Disk space
-    disk_usage = psutil.disk_usage("/")
-    disk_total = disk_usage.total / (1024**3)
-    disk_used = disk_usage.used / (1024**3)
-    disk_usage_str = (
-        f"{disk_used:.2f} / {disk_total:.2f} GB ({disk_usage.percent:.2f}%)"
+    disk_usage: psutil._common.sdiskusage = psutil.disk_usage("/")
+    disk_usage_str: str = (
+        f"{disk_usage.used / (1024**3):.2f} / {disk_usage.total / (1024**3):.2f} GB ({disk_usage.percent:.2f}%)"
     )
-    disk_usage_color = color_usage_percent(disk_usage.percent)
+    disk_usage_color: str = color_usage_percent(disk_usage.percent)
 
     # RAM space
-    ram_usage = psutil.virtual_memory()
-    ram_total = ram_usage.total / (1024**3)
-    ram_used = ram_usage.used / (1024**3)
-    ram_usage_str = f"{ram_used:.2f} / {ram_total:.2f} GB ({ram_usage.percent:.2f}%)"
-    ram_usage_color = color_usage_percent(ram_usage.percent)
+    ram_usage: psutil._pslinux.svmem = psutil.virtual_memory()
+    ram_usage_str: str = (
+        f"{ram_usage.used / (1024**3):.2f} / {ram_usage.total / (1024**3):.2f} GB ({ram_usage.percent:.2f}%)"
+    )
+    ram_usage_color: str = color_usage_percent(ram_usage.percent)
 
     # Colors
-    colored_line = dynamic_color_line()
+    colored_line: str = dynamic_color_line()
 
-    display = {
+    # Display dictionary
+    display: dict[str, typing.Any] = {
         colored("", "green"): colored(f"{username}@{hostname}", "green"),
         os_logo: os_name,
         colored("", "blue"): cpu_name,
         colored("", cpu_usage_color): f"{cpu_per}%",
+        **({colored("", temp_color): temp_str} if temp_str else {}),
+        **(
+            {colored(battery_logo, "green"): battery_percent} if battery_percent else {}
+        ),
+        colored("󰨇", "red"): wm,
+        colored("", "magenta"): uptime_str,
+        colored("", ram_usage_color): ram_usage_str,
+        colored("", disk_usage_color): disk_usage_str,
+        **({colored("󰩩", "green"): private_ip} if private_ip else {}),
+        **({colored("󰑩", "green"): public_ip} if public_ip else {}),
+        " ": colored_line,
     }
-
-    if temp_str is not None:
-        display.update({colored("", temp_color): temp_str})
-
-    if battery is not None:
-        display.update({colored(battery_logo, "green"): battery})
-
-    display.update(
-        {
-            colored("󰨇", "red"): wm,
-            colored("", "magenta"): uptime_str,
-            colored("", ram_usage_color): ram_usage_str,
-            colored("", disk_usage_color): disk_usage_str,
-        }
-    )
-
-    if private_ip is not None:
-        display.update({colored("󰩩", "green"): private_ip})
-    if public_ip is not None:
-        display.update({colored("󰑩", "green"): public_ip})
-
-    display.update(
-        {
-            " ": colored_line,
-        }
-    )
 
     return display
 
