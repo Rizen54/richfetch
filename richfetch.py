@@ -135,10 +135,7 @@ def get_os_logo(os_name):
         "Zorin OS": colored("", "blue"),
     }
 
-    if os_name in logo_dict:
-        return logo_dict[os_name]
-    else:
-        return colored("", "yellow")
+    return logo_dict.get(os_name, colored("", "yellow"))
 
 
 def color_line():
