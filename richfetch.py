@@ -236,14 +236,24 @@ def color_line() -> str:
     return colored_line
 
 
-def dynamic_color_line():
-    colors = ["red", "yellow", "green", "blue", "cyan", "magenta"]
-    symbols = ["󱚝", "󱚟", "󱚣", "󰚩", "󱜙", "󱚥"]
+def dynamic_color_line() -> str:
+    """
+    Creates a dynamically colored line of symbols.
 
-    colored_line = ""
-    for i in range(len(colors)):
-        colored_symbol = colored(symbols[i], colors[i])
-        colored_line += colored_symbol + " "
+    This function constructs a string consisting of colored symbols,
+    where each symbol is associated with a corresponding color from
+    two predefined lists. Each symbol is colored using the `colored`
+    function.
+
+    Returns:
+        str: A string containing dynamically colored symbols in a single line.
+    """
+    colors: list[str] = ["red", "yellow", "green", "blue", "cyan", "magenta"]
+    symbols: list[str] = ["󱚝", "󱚟", "󱚣", "󰚩", "󱜙", "󱚥"]
+
+    colored_line: str = " ".join(
+        colored(symbols[i], colors[i]) for i in range(len(colors))
+    )
     return colored_line
 
 
