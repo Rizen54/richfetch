@@ -109,8 +109,21 @@ def get_cpu_temperature() -> float | None:
     return None
 
 
-def color_cpu_temp(temp):
-    # Deciding color of CPU temp label depending on the temp
+def color_cpu_temp(temp: float) -> str:
+    """
+    Determines the color label for the CPU temperature based on its value.
+
+    This function returns a color code depending on the CPU temperature:
+    - "green" for temperatures below 60 degrees.
+    - "yellow" for temperatures between 60 and 69 degrees.
+    - "red" for temperatures of 70 degrees or higher.
+
+    Args:
+        temp (float): The current CPU temperature.
+
+    Returns:
+        str: The color label ("green", "yellow", or "red") representing the temperature level.
+    """
     if temp < 60:
         return "green"
     elif temp < 70:
