@@ -375,13 +375,20 @@ def get_system_info() -> dict[str, typing.Any]:
     return display
 
 
-def main():
-    system_info = get_system_info()
+def main() -> None:
+    """
+    Main function to retrieve and display system information.
 
-    print()
-    for key, value in system_info.items():
-        print(f"  {key}  {value}")
-    print()
+    This function calls `get_system_info` to retrieve system information
+    and then prints it in a formatted manner.
+    """
+    system_info: dict[str, typing.Any] = get_system_info()
+
+    print(
+        "\n"
+        + "\n".join(f"  {key}  {value}" for key, value in system_info.items())
+        + "\n"
+    )
 
 
 if __name__ == "__main__":
