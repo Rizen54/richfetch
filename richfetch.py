@@ -70,27 +70,41 @@ def get_private_ip() -> str | None:
         return None
 
 
-def get_cpu_temperature():
-    # Gets CPU temp but only works in Linux or FreeBSD based OS
+def get_cpu_temperature() -> float | None:
+    """
+    Retrieves the current CPU temperature from available sensors.
 
-    sensors = [
+    This function attempts to get the CPU temperature using several known sensor names.
+    It is designed to work on Linux or FreeBSD-based operating systems where the
+    `psutil.sensors_temperatures()` function can read sensor data.
+
+    The function iterates through a list of common sensor names, checking each one until
+    it finds a sensor with a temperature reading. If a sensor is found, it returns the
+    current temperature as a float. If no sensor is found or if an error occurs, it
+    returns None.
+
+    Returns:
+        float | None: The current CPU temperature if a sensor reading is found,
+                            or None if no sensor reading is available.
+    """
+    sensors: list[str] = [
         "coretemp",
         "k10temp",
         "cpu-thermal",
-        "cpu-thermal",
-        "lm_sensors" "asus-nb",
+        "lm_sensors",
+        "asus-nb",
         "lm75",
         "acpitz",
     ]
 
+    all_temperatures: dict[str, psutil.shwtemp] = psutil.sensors_temperatures()
+    if all_temperatures is None:
+        return None
+
     for sensor in sensors:
-        try:
-            temperatures = psutil.sensors_temperatures()[sensor]
-            if temperatures:
-                return temperatures[0].current
-                break  # Exit the inner loop if a matching reading is found
-        except (KeyError, AttributeError):
-            pass
+        temperatures = all_temperatures.get(sensor)
+        if temperatures:
+            return temperatures[0].current
 
     return None
 
