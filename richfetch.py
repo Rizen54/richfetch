@@ -38,11 +38,26 @@ def get_public_ip() -> str | None:
         return None
 
 
-def get_private_ip():
+def get_private_ip() -> str | None:
+    """
+    Retrieves the private IP address of the current machine.
+
+    This function creates a temporary UDP socket to determine the local IP address
+    by connecting to a well-known public IP (Google's DNS server, 8.8.8.8). It does not
+    send any data to the server; the operation is used only to get the local IP address
+    assigned to the network interface.
+
+    If the operation is successful, it returns the local IP address as a string. If an
+    error occurs during the socket operation, it logs the error and returns None.
+
+    Returns:
+        str | None: The private IP address as a string if the operation is successful,
+                    or None if an error occurs.
+    """
     try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s: socket.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect(("8.8.8.8", 80))
-        ip = s.getsockname()[0]
+        ip: str = s.getsockname()[0]
         s.close()
         return ip
     except socket.error as e:
