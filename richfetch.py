@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 
 import argparse
-import ctypes
 from datetime import datetime
 import os
 import platform
 import socket
-import subprocess
 
 from cpuinfo import get_cpu_info
 import psutil
