@@ -132,8 +132,21 @@ def color_cpu_temp(temp: float) -> str:
         return "red"
 
 
-def color_usage_percent(percent):
-    # Deciding color of usage percentage label depending on the percentage
+def color_usage_percent(percent: float) -> str:
+    """
+    Determines the color label for the CPU usage percentage based on its value.
+
+    This function returns a color code depending on the CPU usage percentage:
+    - "green" for usage below 60%.
+    - "yellow" for usage between 60% and 79%.
+    - "red" for usage of 80% or higher.
+
+    Args:
+        percent (float): The CPU usage percentage.
+
+    Returns:
+        str: The color label ("green", "yellow", or "red") representing the usage level.
+    """
     if percent < 60:
         return "green"
     elif percent < 80:
