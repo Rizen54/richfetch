@@ -79,12 +79,12 @@ def color_cpu_temp(temp):
 
 
 def color_usage_percent(percent):
-    # Deciding color of cpu temp label depending on the temp
+    # Deciding color of usage percentage label depending on the percentage
     if percent < 60:
         return "green"
-    elif percent >= 60 and percent < 80:
+    elif percent < 80:
         return "yellow"
-    elif percent >= 80:
+    else:
         return "red"
 
 
