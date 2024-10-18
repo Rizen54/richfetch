@@ -69,12 +69,12 @@ def get_cpu_temperature():
 
 
 def color_cpu_temp(temp):
-    # Deciding color of cpu temp label depending on the temp
+    # Deciding color of CPU temp label depending on the temp
     if temp < 60:
         return "green"
-    elif temp >= 60 and temp < 70:
+    elif temp < 70:
         return "yellow"
-    elif temp >= 70:
+    else:
         return "red"
 
 
