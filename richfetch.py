@@ -11,9 +11,21 @@ from termcolor import colored
 from cpuinfo import get_cpu_info
 
 
-def get_public_ip():
+def get_public_ip() -> str | None:
+    """
+    Retrieves the public IP address of the current machine using the ipify API.
+
+    This function sends a request to the ipify service to obtain the public IP address.
+    If the request is successful, it returns the IP address as a string. If an error
+    occurs during the request (e.g., network issues or server errors), it logs the error
+    and returns None.
+
+    Returns:
+        str | None: The public IP address as a string if the request is successful,
+                    or None if an error occurs.
+    """
     try:
-        response = requests.get("https://api.ipify.org?format=json")
+        response: requests.Response = requests.get("https://api.ipify.org?format=json")
         response.raise_for_status()
         return response.json()["ip"]
     except requests.exceptions.RequestException as e:
