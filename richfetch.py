@@ -220,10 +220,7 @@ def get_system_info():
     except (UnboundLocalError, AttributeError):
         plugged = None
 
-    if plugged == True:
-        battery_logo = "󰂄"
-    else:
-        battery_logo = "󱊣"
+    battery_logo = "󰂄" if plugged else "󱊣"
 
     # Getting ip addresses
 
