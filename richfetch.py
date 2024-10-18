@@ -220,11 +220,19 @@ def get_os_logo(os_name: str) -> str:
     return logo_dict.get(os_name, colored("", "yellow"))
 
 
-def color_line():
-    colors = ["red", "yellow", "green", "blue", "cyan", "magenta"]
-    colored_line = ""
-    for color in colors:
-        colored_line += colored(" ", color)
+def color_line() -> str:
+    """
+    Creates a colored line of symbols using predefined colors.
+
+    This function constructs a string consisting of colored symbols,
+    where each symbol is colored using the `colored` function. The
+    symbols used are the same for each color.
+
+    Returns:
+        str: A string containing colored symbols in a single line.
+    """
+    colors: list[str] = ["red", "yellow", "green", "blue", "cyan", "magenta"]
+    colored_line: str = " ".join(colored(" ", color) for color in colors)
     return colored_line
 
 
