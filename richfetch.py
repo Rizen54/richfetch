@@ -47,7 +47,15 @@ def get_private_ip():
 def get_cpu_temperature():
     # Gets CPU temp but only works in Linux or FreeBSD based OS
 
-    sensors = ["coretemp", "k10temp", "cpu-thermal", "cpu-thermal", "lm_sensors" "asus-nb", "lm75", "acpitz"]
+    sensors = [
+        "coretemp",
+        "k10temp",
+        "cpu-thermal",
+        "cpu-thermal",
+        "lm_sensors" "asus-nb",
+        "lm75",
+        "acpitz",
+    ]
 
     for sensor in sensors:
         try:
@@ -83,55 +91,55 @@ def color_usage_percent(percent):
 
 def get_os_logo(os_name):
     logo_dict = {
-        "Alpine Linux": colored('', 'blue'),
-        "Arch Linux": colored('󰣇', 'blue'),
-        "Artix Linux": colored('', 'blue'),
-        "CentOS Stream 9": colored('', 'yellow'),
-        "Debian GNU/Linux 11 Bullseye": colored('', 'red'),
-        "Deepin": colored('', 'blue'),
-        "Elementary OS 7: Loki": colored('', 'blue'),
-        "EndeavourOS": colored('', 'magenta'),
-        "Fedora Linux": colored('', 'blue'),
-        "FreeBSD": colored('', 'red'),
-        "Parabola GNU/Linux-libre": colored('', 'blue'),
-        "Garuda Linux": colored('', 'yellow'),
-        "Gentoo Linux": colored('󰣨', 'white'),
-        "Hyperbola GNU/Linux-libre": colored('', 'blue'),
-        "Kali Linux": colored('', 'blue'),
-        "KDE Neon": colored('', 'blue'),
-        "Kubuntu": colored('', 'blue'),
-        "Linux Mint 21 Cinnamon": colored('󰣭', 'green'),
-        "Lubuntu": colored('', 'blue'),
-        "macOS": colored('', 'white'),
-        "Mageia": colored('', 'blue'),
-        "Manjaro Linux": colored('', 'green'),
-        "MX Linux": colored('', 'white'),
-        "NixOS": colored('', 'blue'),
-        "openSUSE Leap 15.4": colored('', 'green'),
-        "openSUSE Tumbleweed": colored('', 'green'),
-        "Parrot Security OS": colored('', 'green'),
-        "Pop!_OS 22.04": colored('', 'blue'),
-        "PostmarketOS": colored('', 'green'),
-        "Puppy Linux": colored('', 'white'),
-        "Qubes OS": colored('', 'blue'),
-        "Raspberry Pi OS": colored('', 'red'),
-        "Red Hat Enterprise Linux": colored('Red Hat Enterprise Linux', 'red'),
-        "Slackware Linux": colored('', 'blue'),
-        "Solus": colored('', 'blue'),
-        "Tails": colored('', 'magenta'),
-        "Ubuntu 22.04 LTS": colored('', 'yellow'),
-        "Ubuntu Budgie": colored('', 'magenta'),
-        "Vanilla OS":  colored('', 'yellow'),
-        "Void Linux": colored('', 'green'),
-        "Windows": colored('', 'blue'),
-        "Xubuntu": colored('', 'blue'),
-        "Zorin OS": colored('', 'blue'),
+        "Alpine Linux": colored("", "blue"),
+        "Arch Linux": colored("󰣇", "blue"),
+        "Artix Linux": colored("", "blue"),
+        "CentOS Stream 9": colored("", "yellow"),
+        "Debian GNU/Linux 11 Bullseye": colored("", "red"),
+        "Deepin": colored("", "blue"),
+        "Elementary OS 7: Loki": colored("", "blue"),
+        "EndeavourOS": colored("", "magenta"),
+        "Fedora Linux": colored("", "blue"),
+        "FreeBSD": colored("", "red"),
+        "Parabola GNU/Linux-libre": colored("", "blue"),
+        "Garuda Linux": colored("", "yellow"),
+        "Gentoo Linux": colored("󰣨", "white"),
+        "Hyperbola GNU/Linux-libre": colored("", "blue"),
+        "Kali Linux": colored("", "blue"),
+        "KDE Neon": colored("", "blue"),
+        "Kubuntu": colored("", "blue"),
+        "Linux Mint 21 Cinnamon": colored("󰣭", "green"),
+        "Lubuntu": colored("", "blue"),
+        "macOS": colored("", "white"),
+        "Mageia": colored("", "blue"),
+        "Manjaro Linux": colored("", "green"),
+        "MX Linux": colored("", "white"),
+        "NixOS": colored("", "blue"),
+        "openSUSE Leap 15.4": colored("", "green"),
+        "openSUSE Tumbleweed": colored("", "green"),
+        "Parrot Security OS": colored("", "green"),
+        "Pop!_OS 22.04": colored("", "blue"),
+        "PostmarketOS": colored("", "green"),
+        "Puppy Linux": colored("", "white"),
+        "Qubes OS": colored("", "blue"),
+        "Raspberry Pi OS": colored("", "red"),
+        "Red Hat Enterprise Linux": colored("Red Hat Enterprise Linux", "red"),
+        "Slackware Linux": colored("", "blue"),
+        "Solus": colored("", "blue"),
+        "Tails": colored("", "magenta"),
+        "Ubuntu 22.04 LTS": colored("", "yellow"),
+        "Ubuntu Budgie": colored("", "magenta"),
+        "Vanilla OS": colored("", "yellow"),
+        "Void Linux": colored("", "green"),
+        "Windows": colored("", "blue"),
+        "Xubuntu": colored("", "blue"),
+        "Zorin OS": colored("", "blue"),
     }
 
     if os_name in logo_dict:
         return logo_dict[os_name]
     else:
-        return colored('', 'yellow')
+        return colored("", "yellow")
 
 
 def color_line():
@@ -155,9 +163,15 @@ def dynamic_color_line():
 
 def get_system_info():
 
-    parser = argparse.ArgumentParser(description="RichFetch - A customizable system information tool")
-    parser.add_argument("--show-public-ip", action="store_true", help="Show public IP address")
-    parser.add_argument("--show-private-ip", action="store_true", help="Show private IP address")
+    parser = argparse.ArgumentParser(
+        description="RichFetch - A customizable system information tool"
+    )
+    parser.add_argument(
+        "--show-public-ip", action="store_true", help="Show public IP address"
+    )
+    parser.add_argument(
+        "--show-private-ip", action="store_true", help="Show private IP address"
+    )
     args = parser.parse_args()
 
     # OS name and ver
@@ -174,7 +188,6 @@ def get_system_info():
     else:
         os_name = platform.freedesktop_os_release()["PRETTY_NAME"]
         os_logo = get_os_logo(os_name)
-
 
     # Username and hostname
     username = os.getlogin()
@@ -235,21 +248,22 @@ def get_system_info():
 
     # Disk space
     disk_usage = psutil.disk_usage("/")
-    disk_total = disk_usage.total / (1024 ** 3)
-    disk_used = disk_usage.used / (1024 ** 3)
-    disk_usage_str = f"{disk_used:.2f} / {disk_total:.2f} GB ({disk_usage.percent:.2f}%)"
+    disk_total = disk_usage.total / (1024**3)
+    disk_used = disk_usage.used / (1024**3)
+    disk_usage_str = (
+        f"{disk_used:.2f} / {disk_total:.2f} GB ({disk_usage.percent:.2f}%)"
+    )
     disk_usage_color = color_usage_percent(disk_usage.percent)
 
     # RAM space
     ram_usage = psutil.virtual_memory()
-    ram_total = ram_usage.total / (1024 ** 3)
-    ram_used = ram_usage.used / (1024 ** 3)
+    ram_total = ram_usage.total / (1024**3)
+    ram_used = ram_usage.used / (1024**3)
     ram_usage_str = f"{ram_used:.2f} / {ram_total:.2f} GB ({ram_usage.percent:.2f}%)"
     ram_usage_color = color_usage_percent(ram_usage.percent)
 
     # Colors
     colored_line = dynamic_color_line()
-
 
     display = {
         colored("", "green"): colored(f"{username}@{hostname}", "green"),
@@ -264,19 +278,25 @@ def get_system_info():
     if battery is not None:
         display.update({colored(battery_logo, "green"): battery})
 
-    display.update({
-        colored("󰨇", "red"): wm,
-        colored("", "magenta"): uptime_str,
-        colored("", ram_usage_color): ram_usage_str,
-        colored("", disk_usage_color): disk_usage_str
-    })
+    display.update(
+        {
+            colored("󰨇", "red"): wm,
+            colored("", "magenta"): uptime_str,
+            colored("", ram_usage_color): ram_usage_str,
+            colored("", disk_usage_color): disk_usage_str,
+        }
+    )
 
     if private_ip is not None:
         display.update({colored("󰩩", "green"): private_ip})
     if public_ip is not None:
         display.update({colored("󰑩", "green"): public_ip})
 
-    display.update({" ": colored_line,})
+    display.update(
+        {
+            " ": colored_line,
+        }
+    )
 
     return display
 
